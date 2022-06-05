@@ -93,12 +93,83 @@ model = bentoml.sklearn.load_model("iris_clf:latest")
 
 - `FrameWork`별 차이가 있긴 하지만 `pytorch`의 경우에는 `bentoml.pytorch.save_model`, `tensorflow`의 경우는 `bentoml.tensorflow.save_model`과 같이 나타나게 됩니다. 자세한 사항은 [링크]("https://docs.bentoml.org/en/latest/frameworks/index.html") 
 
+### 서비스 만들기 
+
+- 서비스는 `BentoML`에 가장 핵심이 되는 요소입니다.
+
+> 공식 문서에서는 `service`라고 적혀 있지만 사실 API 구축 정도로 이해하시면 편할듯 합니다. 
+
+- 해당 내용을 보기위해 `service.py`를 통해 확인해보도록 하겠습니다. 
+
+```python
+# import Library
+import numpy as np
+import bentoml
+from bentoml.io import NumpyNdarray
+
+# Save Model 에서 진행한 Model을 로드해서 돌리기
+iris_clf_runner = bentoml.sklearn.get("iris_clf:latest").to_runner()
+
+# BentoML 서비스에 올리기 
+svc = bentoml.Service("iris_classifier", runners=[iris_clf_runner])
+
+# 해당 API를 사용하기 위해 input, ouput에 대한 annotation
+@svc.api(input=NumpyNdarray(), output=NumpyNdarray())
+
+# classify 함수 지정 
+def classify(input_series: np.ndarray) -> np.ndarray:
+    result = iris_clf_runner.predict.run(input_series)
+    return result
+
+```
+
+- 해당 파일을 만들고 파일 위치로 가서 아래 명령어를 입력해주시면 서비스가 구축됩니다.
+
+```bash
+bentoml serve service:svc --reload
 
 
+INFO [cli] Starting development BentoServer from "service:svc" running on http://127.0.0.1:3000 (Press CTRL+C to quit)
+INFO [dev_api_server] Service imported from source: bentoml.Service(name="iris_classifier", import_str="service:svc", working_dir="/home/user/gallery/quickstart")
+INFO [dev_api_server] Will watch for changes in these directories: ['/home/user/gallery/quickstart']
+INFO [dev_api_server] Started server process [25915]
+INFO [dev_api_server] Waiting for application startup.
+INFO [dev_api_server] Application startup complete.
+```
+![3](./imgs/3.png) 
 
+- service파이썬 모듈( service.py파일) 을 나타냅니다.
 
+- svc에서 생성된 객체를 참조합니다 service.py.svc = bentoml.Service(...)
 
+- --reload옵션은 로컬 코드 변경 사항을 감시하고 자동으로 서버를 다시 작동하게 합니다( Hotreload )
 
+- `BentoML`은 기본적으로 `Swagger`를 지원하기 때문에 브라우저에서 요청을 주고받기 쉽게 되어있습니다.
+
+- `http://127.0.0.1:3000/` 주소를 통해 `Swagger`페이지를 볼수 있습니다. [링크]('http://127.0.0.1:3000/')
+
+![4](./imgs/4.png) 
+
+- 이 외의 방법으로 `python` 코드를 통해, `Curl` 명령어를 통해 보낼수도 있습니다. 
+
+- python
+
+  ```python
+  import requests
+  requests.post(
+      "http://127.0.0.1:3000/classify",
+      headers={"content-type": "application/json"},
+      data="[[5.9, 3, 5.1, 1.8]]").text
+  ```
+- Curl
+
+  ```bash
+    curl \
+    -X POST \
+    -H "content-type: application/json" \
+    --data "[[5.9, 3, 5.1, 1.8]]" \
+    http://127.0.0.1:3000/classify
+  ```
 
 
 
