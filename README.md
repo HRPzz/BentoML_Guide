@@ -171,6 +171,51 @@ INFO [dev_api_server] Application startup complete.
     http://127.0.0.1:3000/classify
   ```
 
+### Bento 만들기 
+
+- 서비스 정의가 완료 되면 모델과 서비스를 `Bento`로 만들수 있습니다. 
+
+> 흠.... 저는 일본어 보다는 도시락이라고 표현하고 싶네요 ㅎㅎ
+
+- `Bento`는 서비스를 실행하는데 필요한 코드,모델,종속성을 포함한것이라고 생각하면됩니다.
+
+- 아래코드를 `bentofile.yaml`파일을 만든 다음 넣어주면 됩니다. 
+```yaml
+service: "service:svc"  # Same as the argument passed to `bentoml serve`
+labels:
+   owner: bentoml-team
+   stage: dev
+include:
+- "*.py"  # A pattern for matching which files to include in the bento
+python:
+   packages:  # Additional pip packages required by the service
+   - scikit-learn
+   - pandas
+
+```
+> Kubernetes, Docker를 만져보신 분들이라면 익숙하실거라고 생각합니다.init
+
+- 해당 코드는 `bentoml build`를 통해서 실행 시킬수 있습니다. 
+
+![5](./imgs/5.png) 
+
+- 만약 위의 결과물처럼 나온다면 여러분들은 `Bento`를 성공적으로 만들었습니다.
+
+- 이제 `prdouction`을 진행할수 있는데 간단하게 돌려 해보도록 하겠습니다.
+
+- 해당 명령어를 통해 ` bentoml serve iris_classifier:latest --production` 실행시켜보도록 하겠습니다.
+
+![6](./imgs/6.png) 
+
+
+### Docker Image 생성
+
+- 위에서 만든 `Bento`를 명령어를 통해 간단하게 `Docker Image`로 만들수 있습니다.
+
+- `bentoml containerize iris_classifier:latest` 를 통해 만들수 있으나 Docker가 반드시 설치 되어있어야합니다.
+
+![7](./imgs/7.png) 
+
 
 
 
