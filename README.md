@@ -31,9 +31,90 @@
 ```bash
 
 pip install --pre bentoml
+
 pip install scikit-learn pandas
 
 ```
+
+### BentoML 모델 저장
+
+- `BentoML`을 시작하려면 `BentoML`에서 제공하는 모델 저장소에 저장을 해야합니다.
+
+- 간단한 예제 코드를 통해 한번 보도록 해보죠
+
+```python
+import bentoml # bentoml API load
+
+from sklearn import svm # scikit learn에서 svm 가져오기 
+from sklearn import datasets # iris 데이터를 가져오기 위해서 로드 
+
+# 데이터셋 로드 
+iris = datasets.load_iris()
+X, y = iris.data, iris.target
+
+# 모델에 학습 시키기 
+clf = svm.SVC(gamma='scale')
+clf.fit(X, y)
+
+
+# Bentoml 저장소에 저장시키기
+
+bentoml.sklearn.save_model("iris_clf", clf)
+
+
+# 실행 시키면 아래 처럼 결과물이 나오게 될겁니다.
+# INFO  [cli] Using default model signature `{"predict": {"batchable": False}}` for sklearn model
+# INFO  [cli] Successfully saved Model(tag="iris_clf:2uo5fkgxj27exuqj", path="~/bentoml/models/iris_clf/2uo5fkgxj27exuqj/")
+
+```
+- 해당 코드를 실행 시키면 결과물이 아래처럼 나오게 될것입니다.
+
+![1](./imgs/1.png) 
+
+- 이 뜻은 `BentoML`에서 `Local`에 모델을 저장 했다는것입니다.
+
+- 해당 디렉토리로 가면 폴더가 있는것을 볼수있습니다. 
+![2](./imgs/2.png) 
+
+- 우리는 저장한 모델을 불러올수 있게 되는데 아래 코드를 통해 불러올수 있습니다.
+
+```python
+import bentoml # bentoml API load
+
+# 해당 결과물에서 나온 코드값으로 모델을 불러올수  있으며 
+model = bentoml.sklearn.load_model("iris_clf:7dtkvtxe2oru2aav")
+
+# 또는 가장 최근에 저장한 모델을 불러올수 있습니다.
+model = bentoml.sklearn.load_model("iris_clf:latest")
+
+```
+
+- 해당 예시는 `scikit-learn`에서 저장하는 방법입니다.
+
+- `FrameWork`별 차이가 있긴 하지만 `pytorch`의 경우에는 `bentoml.pytorch.save_model`, `tensorflow`의 경우는 `bentoml.tensorflow.save_model`과 같이 나타나게 됩니다. 자세한 사항은 [링크]("https://docs.bentoml.org/en/latest/frameworks/index.html") 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
