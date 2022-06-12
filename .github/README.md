@@ -70,12 +70,12 @@ bentoml.sklearn.save_model("iris_clf", clf)
 ```
 - 해당 코드를 실행 시키면 결과물이 아래처럼 나오게 될것입니다.
 
-![1](./imgs/1.png) 
+![1](../imgs/1.png) 
 
 - 이 뜻은 `BentoML`에서 `Local`에 모델을 저장 했다는것입니다.
 
 - 해당 디렉토리로 가면 폴더가 있는것을 볼수있습니다. 
-![2](./imgs/2.png) 
+![2](../imgs/2.png) 
 
 - 우리는 저장한 모델을 불러올수 있게 되는데 아래 코드를 통해 불러올수 있습니다.
 
@@ -137,7 +137,7 @@ INFO [dev_api_server] Started server process [25915]
 INFO [dev_api_server] Waiting for application startup.
 INFO [dev_api_server] Application startup complete.
 ```
-![3](./imgs/3.png) 
+![3](../imgs/3.png) 
 
 - service파이썬 모듈( service.py파일) 을 나타냅니다.
 
@@ -149,7 +149,7 @@ INFO [dev_api_server] Application startup complete.
 
 - `http://127.0.0.1:3000/` 주소를 통해 `Swagger`페이지를 볼수 있습니다. [링크]('http://127.0.0.1:3000/')
 
-![4](./imgs/4.png) 
+![4](../imgs/4.png) 
 
 - 이 외의 방법으로 `python` 코드를 통해, `Curl` 명령어를 통해 보낼수도 있습니다. 
 
@@ -198,7 +198,7 @@ python:
 
 - 해당 코드는 `bentoml build`를 통해서 실행 시킬수 있습니다. 
 
-![5](./imgs/5.png) 
+![5](../imgs/5.png) 
 
 - 만약 위의 결과물처럼 나온다면 여러분들은 `Bento`를 성공적으로 만들었습니다.
 
@@ -206,7 +206,7 @@ python:
 
 - 해당 명령어를 통해 ` bentoml serve iris_classifier:latest --production` 실행시켜보도록 하겠습니다.
 
-![6](./imgs/6.png) 
+![6](../imgs/6.png) 
 
 
 ### Docker Image 생성
@@ -215,7 +215,7 @@ python:
 
 - `bentoml containerize iris_classifier:latest` 를 통해 만들수 있으나 Docker가 반드시 설치 되어있어야합니다.
 
-![7](./imgs/7.png) 
+![7](../imgs/7.png) 
 
 
 
