@@ -67,7 +67,7 @@ my_runner: bentoml.Runner = bento_model.to_runner()
 
 - 우리들은 `bentoml models list`라는 명령어를 통해 어떤 모델이 있는지 보고 관리할 수 있습니다.
 
-![8](./imgs/8.png) 
+![8](../imgs/8.png) 
 
 
 ### 모델 가져오기 및 내보내기
@@ -78,7 +78,7 @@ my_runner: bentoml.Runner = bento_model.to_runner()
 
   - `import code` : bentoml models import <export된 이미지 이름>
 
-![9](./imgs/9.png) 
+![9](../imgs/9.png) 
 
 - `export`는 정상 작동이 된거 같으나 `import`는 정상 작동이 되지 않을것입니다.
 
@@ -122,7 +122,7 @@ my_runner: bentoml.Runner = bento_model.to_runner()
     import bentoml
     bentoml.models.delete("iris_clf:latest")
     ```
-![10](./imgs/10.png) 
+![10](../imgs/10.png) 
 
 
 ## 모델 러너  사용
@@ -202,7 +202,7 @@ runner.predict.run([[5.9, 3., 5.1, 1.8]])
 
 - 이 경우에 우리는 `classify` 보다는 `predict`를 사용하고 싶다면 위처럼 했을시 `classify`를 했을떄 에러가 발생하게 됩니다 
 
-![11](./imgs/11.png) 
+![11](../imgs/11.png) 
 
 - 또한 재미있는 점은 `signatures`안에 `__call__`을 넣었을떄 입니다.
 
